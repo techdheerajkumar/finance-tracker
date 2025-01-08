@@ -6,6 +6,13 @@ const RegisterationFormLayout = () => {
   const userData = useSelector((state) => state.userData);
   const dispatch = useDispatch();
   let [counter, setCounter] = useState(0);
+  const [error, setError] = useState({
+    userName: "",
+    userLastName: "",
+    userEmail: "",
+    userPassword: "",
+    userConfirmPassword: "",
+  });
   const [userInput, setUserInput] = useState({
     firstName: "",
     lastName: "",
@@ -23,74 +30,140 @@ const RegisterationFormLayout = () => {
   };
   const clickHandler = (e) => {
     e.preventDefault();
-    setCounter(counter++);
-    let idAdded = {
+    if (checkValid()) {
+      setCounter(counter++);
+      let idAdded = {
         ...userInput,
-        id: counter
+        id: counter,
+      };
+      dispatch(userDetails(idAdded));
     }
-    dispatch(userDetails(idAdded))
+  };
+
+  const checkValid = () => {
+    let isValid = true;
+    let userName = "";
+    let userLastName = "";
+    let userEmail = "";
+    let userPassword = "";
+    let userConfirmPassword = "";
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    const isValidEmail = (email) => emailRegex.test(email);
+    if (!userInput.firstName) {
+      userName = "Please enter First name";
+      isValid = false;
+    }
+    if (!userInput.lastName) {
+      userLastName = "Please enter Last name";
+      isValid = false;
+    }
+    if (!userInput.email) {
+      userEmail = "Please enter email";
+      isValid = false;
+    } else if (!isValidEmail(userInput.email)) {
+      userEmail = "Please enter a valid email";
+      isValid = false;
+    }
+
+    if (!userInput.password) {
+      userPassword = "Please enter password";
+      isValid = false;
+    } else if (userInput.password.length < 6) {
+      userPassword = "Password must be at least 6 characters long";
+      isValid = false;
+    }
+
+    if (userInput.confirmPassword !== userInput.password) {
+      userConfirmPassword = "Passwords not matching";
+      isValid = false;
+    }
+
+    setError({
+      userName,
+      userLastName,
+      userEmail,
+      userPassword,
+      userConfirmPassword,
+    });
+    return isValid;
   };
   return (
     <>
-    <h2>Registration form</h2>
-      <form onSubmit={clickHandler}>
-        <fieldset>
-          <input
-            type="text"
-            placeholder="Firstname"
-            name="firstName"
-            onChange={changeHandler}
-            value={userInput.firstName}
-          />
-        </fieldset>
-        <fieldset>
-          <input
-            type="text"
-            placeholder="Lastname"
-            name="lastName"
-            onChange={changeHandler}
-            value={userInput.lastName}
-          />
-        </fieldset>
-        <fieldset>
+      <form onSubmit={clickHandler} className="d-flex flex-column registration-form">
+        <div className="d-flex w-100 form-group justify-content-between">
+          <div className="d-flex flex-column input-wrapper">
+            <input
+              type="text"
+              placeholder="Firstname*"
+              name="firstName"
+              onChange={changeHandler}
+              value={userInput.firstName}
+              className="form-control"
+            />
+            {error.userName && <p className="text-danger">{error.userName}</p>}
+          </div>
+          <div className="d-flex flex-column input-wrapper">
+            <input
+              type="text"
+              placeholder="Lastname*"
+              name="lastName"
+              onChange={changeHandler}
+              value={userInput.lastName}
+              className="form-control"
+            />
+            {error.userLastName && (
+              <p className="text-danger">{error.userLastName}</p>
+            )}
+          </div>
+        </div>
+        <div className="form-group d-flex flex-column">
           <input
             type="email"
-            placeholder="Email"
+            placeholder="Email*"
             onChange={changeHandler}
             name="email"
             value={userInput.email}
+            className="form-control"
           />
-        </fieldset>
-        <fieldset>
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            onChange={changeHandler}
-            value={userInput.password}
-          />
-        </fieldset>
-        <fieldset>
-          <input
-            type="password"
-            placeholder="Confirm password"
-            name="confirmPassword"
-            onChange={changeHandler}
-            value={userInput.confirmPassword}
-          />
-        </fieldset>
-        <fieldset>
-          <input type="submit" className="btn btn-success" name="submitBtn" value="Register" />
-        </fieldset>
-      </form>
+          {error.userEmail && <p className="text-danger">{error.userEmail}</p>}
+        </div>
+        <div className="d-flex w-100 form-group justify-content-between">
+          <div className="d-flex flex-column input-wrapper">
+            <input
+              type="password"
+              placeholder="Password*"
+              name="password"
+              onChange={changeHandler}
+              value={userInput.password}
+              className="form-control"
+            />
+            {error.userPassword && (
+              <p className="text-danger">{error.userPassword}</p>
+            )}
+          </div>
+          <div className="d-flex flex-column input-wrapper">
+            <input
+              type="password"
+              placeholder="Confirm password*"
+              name="confirmPassword"
+              onChange={changeHandler}
+              value={userInput.confirmPassword}
+              className="form-control"
+            />
+            {error.userConfirmPassword && (
+              <p className="text-danger">{error.userConfirmPassword}</p>
+            )}
+          </div>
+        </div>
 
-      <div className="container">
-        {userData.map((item, index) =>{
-            return (
-                <li key={index}>{item.firstName}</li>
-            )
-        })}
-      </div>
+        <input
+          type="submit"
+          className="btn btn-success mx-auto"
+          name="submitBtn"
+          value="Register"
+        />
+      </form>
     </>
   );
 };

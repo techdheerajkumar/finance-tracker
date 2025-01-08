@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-
-const LoginForm = () => {
+import { useNavigate } from "react-router-dom";
+const LoginForm = ({ showHide }) => {
+  const navigate = useNavigate();
   const [loginDetails, setLoginDetails] = useState({
     email: "",
     password: "",
   });
+
   const [error, setError] = useState({
     emailError: "",
     passwordError: "",
@@ -16,7 +18,7 @@ const LoginForm = () => {
       [name]: value,
     }));
   };
-
+  const [formError, setFormError] = useState(null);
   const clickHandler = (e) => {
     e.preventDefault();
     if (checkValidations()) {
@@ -26,12 +28,10 @@ const LoginForm = () => {
       let user = db.find((item) => item.email === userEmail);
       if (user) {
         if (user.password === userPassword) {
-          console.log("login successfully");
-        } else {
-          console.log("incorrect password");
-        }
+          navigate("/expense-tracker");
+        } 
       } else {
-        console.log("invalid email");
+        setFormError("Email not found");
       }
     }
   };
@@ -58,40 +58,44 @@ const LoginForm = () => {
   };
   return (
     <>
-      <h2> Login Page Main</h2>
       <form onSubmit={clickHandler}>
-        <div className="form-group mb-3">
-          <input
-            type="email"
-            className="form-control"
-            aria-describedby="emailHelp"
-            name="email"
-            placeholder="Enter email"
-            onChange={changeHandler}
-            value={loginDetails.email}
-          />
-          <small id="emailHelp" className="mt-1 form-text text-muted d-block">
-            We'll never share your email with anyone else.
-          </small>
-          {error.emailError && <p className="text-danger">{error.emailError}</p>}
-          {}
-        </div>
-        <div className="form-group mb-3">
-          <input
-            type="password"
-            className="form-control"
-            name="password"
-            placeholder="Password"
-            onChange={changeHandler}
-            value={loginDetails.password}
-          />
-          {error.passwordError && <p className="text-danger">{error.passwordError}</p>}
-        </div>
-
+        <input
+          type="email"
+          className="form-control"
+          aria-describedby="emailHelp"
+          name="email"
+          placeholder="Enter email"
+          onChange={changeHandler}
+          value={loginDetails.email}
+        />
+        <small id="emailHelp" className="mt-1 form-text text-muted d-block">
+          We'll never share your email with anyone else.
+        </small>
+        {error.emailError && <p className="text-danger">{error.emailError}</p>}
+        <input
+          type="password"
+          className="form-control"
+          name="password"
+          placeholder="Password"
+          onChange={changeHandler}
+          value={loginDetails.password}
+        />
+        {error.passwordError && (
+          <p className="text-danger">{error.passwordError}</p>
+        )}
+        {formError && (
+          <div className="not-found">
+            <p className="text-danger">{formError}</p>
+          </div>
+        )}
         <div className="form-group form-submit">
           <input type="submit" className="btn btn-primary" />
         </div>
       </form>
+
+      <button className="btn btn-secondary mt-3" onClick={showHide}>
+        Register
+      </button>
     </>
   );
 };
