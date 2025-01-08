@@ -6,6 +6,7 @@ export const userDataSlice = createSlice({
   reducers: {
     userDetails: (state, action) => {
       state.push(action.payload);
+      localStorage.setItem('registeredUser', JSON.stringify(state))
     },
   },
 });
