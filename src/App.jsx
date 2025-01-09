@@ -1,8 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
-import LoginPage from "./assets/pages/Login";
-import { BrowserRouter as Router} from 'react-router-dom';
+import { BrowserRouter as Router } from "react-router-dom";
 import AppRoutes from "./assets/routes/AppRoutes";
 
 function App() {

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userDetails } from "../redux/features/userDetailsSlice";
+import {  useNavigate } from "react-router-dom";
 
 const RegisterationFormLayout = () => {
-  const userData = useSelector((state) => state.userData);
+  let db = useSelector(state => state.userData)
+  const navigate = useNavigate()
   const dispatch = useDispatch();
-  let [counter, setCounter] = useState(0);
   const [error, setError] = useState({
     userName: "",
     userLastName: "",
@@ -31,12 +32,12 @@ const RegisterationFormLayout = () => {
   const clickHandler = (e) => {
     e.preventDefault();
     if (checkValid()) {
-      setCounter(counter++);
       let idAdded = {
         ...userInput,
-        id: counter,
+        id: 5,
       };
       dispatch(userDetails(idAdded));
+      navigate('/expense-tracker')
     }
   };
 
@@ -48,7 +49,8 @@ const RegisterationFormLayout = () => {
     let userPassword = "";
     let userConfirmPassword = "";
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
+    let dbUser = db.find(item => item.email === userInput.email)
+    console.log(db)
     const isValidEmail = (email) => emailRegex.test(email);
     if (!userInput.firstName) {
       userName = "Please enter First name";
@@ -63,6 +65,9 @@ const RegisterationFormLayout = () => {
       isValid = false;
     } else if (!isValidEmail(userInput.email)) {
       userEmail = "Please enter a valid email";
+      isValid = false;
+    } else if(dbUser){
+      userEmail = "Email already exists";
       isValid = false;
     }
 

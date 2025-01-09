@@ -1,9 +1,10 @@
 import React from 'react'
+import AddExpense from '../components/AddExpense'
 
 const ExpenseTracker = () => {
     return(
         <>
-            Dashboard page
+            <AddExpense />
         </>
     )
 }
