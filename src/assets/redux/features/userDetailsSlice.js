@@ -2,11 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const userDataSlice = createSlice({
   name: "userData",
-  initialState: [],
+  initialState: JSON.parse(localStorage.getItem("registeredUser")) || [],
   reducers: {
     userDetails: (state, action) => {
-      state.push(action.payload);
-      localStorage.setItem('registeredUser', JSON.stringify(state))
+      const existingData =
+        JSON.parse(localStorage.getItem("registeredUser")) || []; //store array data in a variable
+      existingData.push(action.payload); // PUshed user data to that array
+
+      localStorage.setItem("registeredUser", JSON.stringify(existingData)); // Finally update localhost database with new data and old data
     },
   },
 });
