@@ -8,13 +8,18 @@ const AddExpense = () => {
     amount: "",
     description: "",
   });
+  const [expenseData, setExpenseData] = useState([])
 
   const changeHandler = (e) => {
     const {name, value} = e.target;
-    
+    setExpenseList((prev) => ({
+      ...prev,
+      [name] : value
+    }))
   };
   const clickHandler = (e) => {
     e.preventDefault();
+    setExpenseData((prev) => [...prev, expenseList])
   };
   return (
     <>

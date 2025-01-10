@@ -6,7 +6,6 @@ export const userDataSlice = createSlice({
   reducers: {
     loadUsers: (state, action) => {
       state = JSON.parse(localStorage.getItem("registeredUser")) || [];
-      console.log(action.payload)
     },
     userDetails: (state, action) => {
       state.push(action.payload); // Add new user
