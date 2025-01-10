@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userDetails } from "../redux/features/userDetailsSlice";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const RegisterationFormLayout = () => {
-  let db = useSelector(state => state.userData);
-  const [counter, setCounter] = useState(0)
-  const navigate = useNavigate()
+  let db = useSelector((state) => state.userData);
+  const [counter, setCounter] = useState(0);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [error, setError] = useState({
     userName: "",
@@ -32,19 +32,27 @@ const RegisterationFormLayout = () => {
   };
   const clickHandler = (e) => {
     e.preventDefault();
-    if(db.length){
-      let lastEl = db[db.length-1]
-      let existingId = lastEl.id;
-      setCounter(existingId + 1)
-    }
-
     if (checkValid()) {
-      let idAdded = {
-        ...userInput,
-        id: counter,
-      };
-      dispatch(userDetails(idAdded));
-      navigate('/expense-tracker')
+      if (db.length) {
+        let lastEl = db[db.length - 1];
+        let existingId = lastEl.id;
+        let idAdded = {
+          ...userInput,
+          id: existingId + 1,
+        };
+        dispatch(userDetails(idAdded));
+      navigate("/expense-tracker");
+      }else {
+        let idAdded = {
+          ...userInput,
+          id: 1,
+        };
+      
+        dispatch(userDetails(idAdded));  // Dispatch the new user to Redux store
+        navigate("/expense-tracker");  // Navigate after registration
+      }
+      
+      
     }
   };
 
@@ -56,7 +64,7 @@ const RegisterationFormLayout = () => {
     let userPassword = "";
     let userConfirmPassword = "";
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    let dbUser = db.find(item => item.email === userInput.email);
+    let dbUser = db.find((item) => item.email === userInput.email);
     const isValidEmail = (email) => emailRegex.test(email);
     if (!userInput.firstName) {
       userName = "Please enter First name";
@@ -72,7 +80,7 @@ const RegisterationFormLayout = () => {
     } else if (!isValidEmail(userInput.email)) {
       userEmail = "Please enter a valid email";
       isValid = false;
-    } else if(dbUser){
+    } else if (dbUser) {
       userEmail = "Email already exists";
       isValid = false;
     }
@@ -101,7 +109,10 @@ const RegisterationFormLayout = () => {
   };
   return (
     <>
-      <form onSubmit={clickHandler} className="d-flex flex-column registration-form">
+      <form
+        onSubmit={clickHandler}
+        className="d-flex flex-column registration-form"
+      >
         <div className="d-flex w-100 form-group justify-content-between">
           <div className="d-flex flex-column input-wrapper">
             <input

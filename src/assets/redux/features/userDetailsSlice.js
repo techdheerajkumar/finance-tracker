@@ -2,19 +2,20 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const userDataSlice = createSlice({
   name: "userData",
-  initialState: JSON.parse(localStorage.getItem("registeredUser")) || [],
+  initialState:  JSON.parse(localStorage.getItem("registeredUser")) || [],
   reducers: {
+    loadUsers: (state, action) => {
+      state = JSON.parse(localStorage.getItem("registeredUser")) || [];
+      console.log(action.payload)
+    },
     userDetails: (state, action) => {
-      const existingData =
-        JSON.parse(localStorage.getItem("registeredUser")) || []; //store array data in a variable
-      existingData.push(action.payload); // PUshed user data to that array
-
-      localStorage.setItem("registeredUser", JSON.stringify(existingData)); // Finally update localhost database with new data and old data
+      state.push(action.payload); // Add new user
+      localStorage.setItem("registeredUser", JSON.stringify(state)); //
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { userDetails } = userDataSlice.actions;
+export const { userDetails, loadUsers } = userDataSlice.actions;
 
 export default userDataSlice.reducer;
