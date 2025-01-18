@@ -28,7 +28,7 @@ const LoginForm = ({ showHide }) => {
       let user = db.find((item) => item.email === userEmail);
       if (user) {
         if (user.password === userPassword) {
-          navigate("/expense-tracker");
+          navigate(`/expense-tracker/${user.id}`);
         } 
       } else {
         setFormError("Email not found");

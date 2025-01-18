@@ -22,6 +22,7 @@ const RegisterationFormLayout = () => {
     password: "",
     confirmPassword: "",
     id: null,
+    expenseList: []
   });
   const changeHandler = (e) => {
     const { name, value } = e.target;
@@ -41,18 +42,16 @@ const RegisterationFormLayout = () => {
           id: existingId + 1,
         };
         dispatch(userDetails(idAdded));
-      navigate("/expense-tracker");
-      }else {
+        navigate(`/expense-tracker/${idAdded.id}`);
+      } else {
         let idAdded = {
           ...userInput,
           id: 1,
         };
-      
-        dispatch(userDetails(idAdded));  // Dispatch the new user to Redux store
-        navigate("/expense-tracker");  // Navigate after registration
+
+        dispatch(userDetails(idAdded)); // Dispatch the new user to Redux store
+        navigate(`/expense-tracker/${idAdded.id}`); // Navigate after registration
       }
-      
-      
     }
   };
 

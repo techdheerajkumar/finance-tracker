@@ -1,29 +1,58 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  userDetails,
+  expenseDetails,
+} from "../redux/features/userDetailsSlice";
 const AddExpense = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const db = useSelector((state) => state.userData);
+  const dispatch = useDispatch();
+  const params = useParams();
+  const { id } = params;
   const [expenseList, setExpenseList] = useState({
     expense: "",
-    data: "",
+    date: "",
     category: "",
     amount: "",
     description: "",
   });
-  const [expenseData, setExpenseData] = useState([])
+  const [expenseData, setExpenseData] = useState([]);
 
   const changeHandler = (e) => {
-    const {name, value} = e.target;
+    const { name, value } = e.target;
     setExpenseList((prev) => ({
       ...prev,
-      [name] : value
-    }))
+      [name]: value,
+    }));
   };
   const clickHandler = (e) => {
     e.preventDefault();
-    setExpenseData((prev) => [...prev, expenseList])
+    setExpenseData((prev) => [...prev, expenseList]);
+  };
+
+  useEffect(() => {
+    let urlId = parseInt(location.pathname[location.pathname.length - 1]); // extracting ID from URL
+    let user = db.find((item) => item.id === urlId); // Getting current user based on urlID
+    if (expenseData.length) {
+      let updatedExpenseDatabase = {
+        ...user,
+        expenseList: expenseData
+      }
+      dispatch(expenseDetails({id: urlId, updatedUser: updatedExpenseDatabase}))
+    }
+  }, [expenseData]);
+
+
+  const logoutHandler = () => {
+    navigate("/");
   };
   return (
     <>
-      <h3>Add expenses</h3>
+      <button onClick={logoutHandler}>Logout</button>
+      <h3>{id} Add expenses</h3>
       <form onSubmit={clickHandler}>
         <label htmlFor="expense">Expense</label>
         <input type="text" name="expense" onChange={changeHandler} required />

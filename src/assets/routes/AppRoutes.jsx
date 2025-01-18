@@ -7,7 +7,7 @@ const AppRoutes = () =>{
     return (
         <Routes>
             <Route path='/' element={<Login />}></Route>
-            <Route path='/expense-tracker' element={<ExpenseTracker />}></Route>
+            <Route path='/expense-tracker/:name' element={<ExpenseTracker />}></Route>
         </Routes>
     )
 }
