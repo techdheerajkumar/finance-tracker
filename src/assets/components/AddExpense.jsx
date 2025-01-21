@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  userDetails,
-  expenseDetails,
-} from "../redux/features/userDetailsSlice";
+import { expenseDetails } from "../redux/features/userDetailsSlice";
 const AddExpense = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -30,21 +27,25 @@ const AddExpense = () => {
   };
   const clickHandler = (e) => {
     e.preventDefault();
-    setExpenseData((prev) => [...prev, expenseList]);
+    let urlId = parseInt(location.pathname[location.pathname.length - 1]); // extracting ID from URL
+    let user = db.find((item) => item.id === urlId);
+    let existingExpenses = user.expenseList
+    setExpenseData(() => [...existingExpenses, expenseList]);        
   };
 
-  useEffect(() => {
+  useEffect(() => {    
     let urlId = parseInt(location.pathname[location.pathname.length - 1]); // extracting ID from URL
     let user = db.find((item) => item.id === urlId); // Getting current user based on urlID
     if (expenseData.length) {
       let updatedExpenseDatabase = {
         ...user,
-        expenseList: expenseData
-      }
-      dispatch(expenseDetails({id: urlId, updatedUser: updatedExpenseDatabase}))
+        expenseList: expenseData,
+      };
+      dispatch(
+        expenseDetails({ id: urlId, updatedUser: updatedExpenseDatabase })
+      );
     }
   }, [expenseData]);
-
 
   const logoutHandler = () => {
     navigate("/");
