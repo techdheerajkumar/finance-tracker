@@ -1,0 +1,226 @@
+/* Wrapper for the entire expense list */
+.list-wrapper {
+    width: 80%;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Header for the expenses list */
+  h2 {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    color: #333;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    font-weight: 500;
+  }
+  
+  /* Header row for item categories */
+  .list-header {
+    display: flex;
+    justify-content: space-between;
+    background-color: #4CAF50;
+    color: #fff;
+    font-weight: bold;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+  
+  .list-item {
+    width: 30%;
+    text-align: left;
+    padding: 10px;
+    font-size: 14px;
+    color: #333;
+    font-family: 'Arial', sans-serif;
+    box-sizing: border-box;
+  }
+  
+  /* Styling for expense rows */
+  .expense-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    margin-bottom: 20px; /* Vertical spacing between rows */
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  /* Subtle hover effect */
+  .expense-row:hover {
+    background-color: #f1f1f1; /* Subtle background color change */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Slight shadow effect */
+  }
+  
+  /* Styling for individual expense items */
+  .expense-item {
+    font-size: 14px;
+    padding: 8px 12px;
+    color: #555;
+  }
+  
+  .expense-item p {
+    margin: 0;
+  }
+  
+  /* Alternating background colors for rows */
+  .expense-row:nth-child(even) {
+    background-color: #f5f5f5;
+  }
+  
+  /* Adding styling for 'No expenses' text */
+  .expense-item p {
+    color: #b0bec5;
+    font-style: italic;
+  }
+  
+  /* Styling for empty or no data in a column */
+  .no-data {
+    text-align: center;
+    color: #d32f2f;
+    font-size: 14px;
+  }
+  
+  /* Flexbox for layout of expense items */
+  .list-header, .expense-row {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  /* Making the expense item column responsive */
+  @media (max-width: 768px) {
+    .list-header, .expense-row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .list-item {
+      width: 100%;
+      padding: 8px;
+    }
+  
+    .expense-item {
+      width: 100%;
+      padding: 8px;
+    }
+  }
+  
+
+  /* Container for the form */
+form {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 40px auto;
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+  }
+  
+  /* Heading styles */
+  h3 {
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-weight: 600;
+    text-align: center;
+  }
+  
+  /* Button (Logout) */
+  button {
+    background-color: #e74c3c;
+    color: #fff;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 20px;
+    display: block;
+    width: 100%;
+  }
+  
+  button:hover {
+    background-color: #c0392b;
+  }
+  
+  /* Label styling */
+  label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #7f8c8d;
+    margin-bottom: 8px;
+    display: block;
+    margin-top: 12px;
+  }
+  
+  /* Input field styles */
+  input[type="text"],
+  input[type="date"],
+  input[type="number"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 12px 18px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 18px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+  }
+  
+  /* Focus state for inputs */
+  input[type="text"]:focus,
+  input[type="date"]:focus,
+  input[type="number"]:focus,
+  select:focus,
+  textarea:focus {
+    border-color: #3498db;
+    outline: none;
+  }
+  
+  /* Textarea specific styling */
+  textarea {
+    resize: vertical;
+  }
+  
+  /* Submit button (Add Expense) */
+  input[type="submit"] {
+    background-color: #2ecc71;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    width: 100%;
+    transition: background-color 0.3s ease;
+  }
+  
+  input[type="submit"]:hover {
+    background-color: #27ae60;
+  }
+  
+  /* For form container responsiveness */
+  @media (max-width: 768px) {
+    form {
+      padding: 15px;
+      width: 90%;
+    }
+  
+    button {
+      margin-bottom: 10px;
+    }
+  }
+  
